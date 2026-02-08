@@ -17,6 +17,9 @@ import weakref
 from functools import partial
 from collections import OrderedDict
 
+import random
+import colors
+
 from sd.tools import io
 from sd.tools import graphlayout
 from sd.api import sdmodule, SDHistoryUtils
@@ -42,6 +45,7 @@ uiMgr = app.getQtForPythonUIMgr()
 
 # getting the current graph.
 sdGraph = uiMgr.getCurrentGraph()
+
 
 #------------ START MAIN CUSTOM FUNCTIONS ---------------------------------------------------------------------------
 
@@ -79,9 +83,20 @@ with SDHistoryUtils.UndoGroup("Random Frame Colors"):
     frame_size.x = x_size
     frame_size.y = y_size
 
+    # getting a random color from a dictionary
+    frame_colors = random.choice(list(colors.color_options.values()))
+    R = frame_colors[0]
+    G = frame_colors[1]
+    B = frame_colors[2]
+    A = frame_colors[3]
+
     # applying the layout of the frame
     frame.setPosition(frame_pos)
     frame.setSize(frame_size)
-    frame.setTitle("temp")
+    frame.setTitle("Frame")
+    frame.setColor(ColorRGBA(R, G, B, A))
+
+    sdGraph.setSelectedGraphObjects([frame])
 
 #------------ END MAIN CUSTOM FUNCTIONS --------------------------------------------------------------------------
+
